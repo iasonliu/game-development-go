@@ -38,6 +38,7 @@ func (g *Game) Draw(screen *ebiten.Image) {
 	i2 := ebiten.NewImage(w/3, h/3)
 	i2.Fill(color.RGBA{0, 0, 0xff, 0x88})
 	opts := &ebiten.DrawImageOptions{}
+	// Translate (0, 0) is the top-left corner
 	opts.GeoM.Translate(float64(i1w), float64(i1h))
 	opts.GeoM.Rotate(0.5)
 	opts.GeoM.Scale(0.5, 0.5)
