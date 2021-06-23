@@ -41,3 +41,7 @@ func (b *background) Draw(trgt *ebiten.Image) error {
 	}
 	return nil
 }
+
+func (b *background) OnScreen() bool {
+	return true
+}

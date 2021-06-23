@@ -61,3 +61,7 @@ func (c *curtains) Draw(trgt *ebiten.Image) error {
 
 	return nil
 }
+
+func (c *curtains) OnScreen() bool {
+	return true
+}

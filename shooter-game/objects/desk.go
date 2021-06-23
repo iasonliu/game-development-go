@@ -49,3 +49,7 @@ func (d *desk) Draw(trgt *ebiten.Image) error {
 
 	return nil
 }
+
+func (d *desk) OnScreen() bool {
+	return true
+}
