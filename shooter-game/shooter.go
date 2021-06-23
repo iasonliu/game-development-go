@@ -1,6 +1,8 @@
 package shooter
 
 import (
+	"log"
+
 	"github.com/hajimehoshi/ebiten/v2"
 	"github.com/iasonliu/game-development-go/shooter-game/objects"
 )
@@ -21,7 +23,11 @@ func (g *Game) Update() error {
 }
 
 func (g *Game) Draw(screen *ebiten.Image) {
-
+	for _, obj := range g.objects {
+		if err := obj.Draw(screen); err != nil {
+			log.Fatal(err)
+		}
+	}
 }
 
 func (g *Game) Layout(w, h int) (int, int) {
@@ -32,7 +38,11 @@ func NewGame() *Game {
 	ebiten.SetWindowSize(windowWidth, windowHeight)
 	ebiten.SetWindowTitle("Shooter")
 	g := &Game{
-		objects: []objects.Object{},
+		objects: []objects.Object{
+			objects.NewBackground("bg_green.png"),
+			objects.NewDesk("bg_wood.png"),
+			objects.NewCurtains("curtain_straight.png", "curtain.png"),
+		},
 	}
 	return g
 }
