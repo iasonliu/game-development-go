@@ -48,12 +48,6 @@ func (d *duck) Tick(_ uint) {
 	// horizontal movement
 	d.offsetX = d.offsetX + ducksXSpeed
 
-	// when the duck is over the screen size, it's no more visible
-	screenW := 800
-	if d.offsetX > float64(screenW) {
-		d.onScreen = false
-	}
-
 	// calculate the vertical direction and offset (for animation)
 	if ducksMaxOffsetY-math.Abs(d.offsetY) < 0 {
 		d.yDirection = d.yDirection.invert()
@@ -62,6 +56,12 @@ func (d *duck) Tick(_ uint) {
 }
 
 func (d *duck) Draw(trgt *ebiten.Image) error {
+	// when the duck is over the screen size, it's no more visible
+	screenW := 800
+	if d.offsetX > float64(screenW) {
+		d.onScreen = false
+	}
+
 	op := &ebiten.DrawImageOptions{}
 	op.GeoM.Translate(d.offsetX, d.offsetY+d.initialOffsetY)
 	trgt.DrawImage(d.img, op)

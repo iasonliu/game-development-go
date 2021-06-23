@@ -1,7 +1,9 @@
-package shooter
+package main
 
 import (
 	"log"
+	"math/rand"
+	"time"
 
 	"github.com/hajimehoshi/ebiten/v2"
 	"github.com/iasonliu/game-development-go/shooter-game/objects"
@@ -42,7 +44,8 @@ func (g *Game) Layout(w, h int) (int, int) {
 	return w, h
 }
 
-func NewGame() *Game {
+func main() {
+	rand.Seed(time.Now().Unix())
 	ebiten.SetWindowSize(windowWidth, windowHeight)
 	ebiten.SetWindowTitle("Shooter")
 	g := &Game{
@@ -53,9 +56,7 @@ func NewGame() *Game {
 			objects.NewCurtains("curtain_straight.png", "curtain.png"),
 		},
 	}
-	return g
-}
-
-func (g *Game) Run() error {
-	return ebiten.RunGame(g)
+	if err := ebiten.RunGame(g); err != nil {
+		log.Fatalf("Game error: %v", err)
+	}
 }
