@@ -11,13 +11,17 @@ import (
 
 const (
 	duckName        = "duck_outline_target_white.png"
-	ducksXSpeed     = 1.5 // horizontal speed
+	stickName       = "stick_woodFixed_outline.png"
+	ducksXSpeed     = 1.8 // horizontal speed
 	ducksYSpeed     = 0.6 // vertical speed
 	ducksMaxOffsetY = 16  // max vertical movement for animation
 )
 
 type duck struct {
-	img            *ebiten.Image
+	duckImg        *ebiten.Image
+	stickImg       *ebiten.Image
+	duckW          int
+	duckH          int
 	offsetX        float64   // horizontal position
 	offsetY        float64   // vertical position
 	initialOffsetY float64   // initial vertical position. set by the caller
@@ -27,15 +31,19 @@ type duck struct {
 
 // newDuck generates a new duck with an initial vertical position
 func newDuck(initialOffsetY int) *duck {
-	img, err := utils.GetImage(duckName, assets.Objects)
+	duckImg, err := utils.GetImage(duckName, assets.Objects)
+	stickImg, err := utils.GetImage(stickName, assets.Objects)
 	if err != nil {
 		log.Fatalf("drawing %s: %v", duckName, err)
 	}
 
-	w, _ := img.Size()
+	w, h := duckImg.Size()
 
 	return &duck{
-		img:            img,
+		duckImg:        duckImg,
+		stickImg:       stickImg,
+		duckW:          w,
+		duckH:          h,
 		initialOffsetY: float64(initialOffsetY),
 		offsetX:        float64(-w),
 		offsetY:        0,
@@ -64,8 +72,10 @@ func (d *duck) Draw(trgt *ebiten.Image) error {
 
 	op := &ebiten.DrawImageOptions{}
 	op.GeoM.Translate(d.offsetX, d.offsetY+d.initialOffsetY)
-	trgt.DrawImage(d.img, op)
-
+	trgt.DrawImage(d.duckImg, op)
+	opt := &ebiten.DrawImageOptions{}
+	opt.GeoM.Translate(d.offsetX+float64(d.duckW/4+10), d.offsetY+float64(d.duckH)+d.initialOffsetY)
+	trgt.DrawImage(d.stickImg, opt)
 	return nil
 }
 
