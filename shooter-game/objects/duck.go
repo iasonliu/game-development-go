@@ -52,6 +52,17 @@ func newDuck(initialOffsetY int) *duck {
 	}
 }
 
+func (d *duck) shoot(clickX, clickY int) bool {
+	x := int(d.offsetX)
+	y := int(d.offsetY + d.initialOffsetY)
+
+	if clickX >= x && clickY <= x+d.duckW && clickY >= y && clickY <= y+d.duckH {
+		d.onScreen = false
+		return true
+	}
+	return false
+}
+
 func (d *duck) Tick(_ uint) {
 	// horizontal movement
 	d.offsetX = d.offsetX + ducksXSpeed
